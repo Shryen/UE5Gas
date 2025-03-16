@@ -14,3 +14,13 @@ void ABaseCharacter::BeginPlay()
 	Super::BeginPlay();
 	
 }
+
+UAbilitySystemComponent* ABaseCharacter::GetAbilitySystemComponent() const
+{
+	return AbilitySystemComponent;
+}
+
+UAttributeSet* ABaseCharacter::GetAttributeSet() const
+{
+	return AttributeSet;
+}
