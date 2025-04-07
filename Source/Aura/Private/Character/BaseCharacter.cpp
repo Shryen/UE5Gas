@@ -24,3 +24,8 @@ UAttributeSet* ABaseCharacter::GetAttributeSet() const
 {
 	return AttributeSet;
 }
+
+void ABaseCharacter::InitAbilityActorInfo()
+{
+	
+}
