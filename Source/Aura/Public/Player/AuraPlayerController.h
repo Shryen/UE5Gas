@@ -2,8 +2,11 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
+#include "GameplayTagContainer.h"
 #include "AuraPlayerController.generated.h"
 
+
+class UAuraInputConfig;
 struct FInputActionValue;
 class UInputAction;
 class UInputMappingContext;
@@ -22,18 +25,25 @@ protected:
 	virtual void SetupInputComponent() override;
 	virtual void PlayerTick(float DeltaTime) override;
 private:
-	UPROPERTY(EditAnywhere, Category=Input)
-	TObjectPtr<UInputMappingContext> AuraContext;
-
 	void CursorTrace();
 	TScriptInterface<IEnemyInterface> LastActor;
 	TScriptInterface<IEnemyInterface> ThisActor;
 	
 	void Move(const FInputActionValue& InputActionValue);
+
+	UPROPERTY(EditAnywhere, Category=Input)
+	TObjectPtr<UInputMappingContext> AuraContext;
+
+	UPROPERTY(EditDefaultsOnly, Category=Input)
+	TObjectPtr<UAuraInputConfig> InputConfig;
+
+	void AbilityInputTagPressed(FGameplayTag InputTag);
+	void AbilityInputTagReleased(FGameplayTag InputTag);
+	void AbilityInputTagHeld(FGameplayTag InputTag);
 	
 	/*
 	 * Input Actions 
 	 */
-	UPROPERTY(EditAnywhere, Category=Input)
+	UPROPERTY(EditAnywhere, Category="Input|Action")
 	TObjectPtr<UInputAction> MoveAction;
 };
