@@ -39,6 +39,8 @@ private:
 	
 	void Move(const FInputActionValue& InputActionValue);
 
+	void AutoRun();
+
 	UPROPERTY(EditAnywhere, Category=Input)
 	TObjectPtr<UInputMappingContext> AuraContext;
 
