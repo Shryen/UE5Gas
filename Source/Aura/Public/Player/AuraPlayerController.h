@@ -31,6 +31,8 @@ private:
 	TScriptInterface<IEnemyInterface> LastActor;
 	TScriptInterface<IEnemyInterface> ThisActor;
 
+	FHitResult CursorHit;
+
 	/*
 	 * Input Actions 
 	 */
