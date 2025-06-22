@@ -2,6 +2,7 @@
 
 #include "AbilitySystemComponent.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
+#include "Components/CapsuleComponent.h"
 
 ABaseCharacter::ABaseCharacter()
 {
@@ -9,7 +10,10 @@ ABaseCharacter::ABaseCharacter()
 	
 	Weapon = CreateDefaultSubobject<USkeletalMeshComponent>("Weapon"); // No need of TEXT() because it is an FName
 	Weapon->SetupAttachment(GetMesh(), FName("WeaponSocket"));
+	
 	Weapon->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_Camera, ECR_Ignore);
+	GetMesh()->SetCollisionResponseToChannel(ECC_Camera, ECR_Ignore);
 }
 
 void ABaseCharacter::BeginPlay()
