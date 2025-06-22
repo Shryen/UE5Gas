@@ -27,6 +27,12 @@ UAttributeSet* ABaseCharacter::GetAttributeSet() const
 	return AttributeSet;
 }
 
+FVector ABaseCharacter::GetCombatSocketLocation()
+{
+	check(Weapon);
+	return Weapon->GetSocketLocation(WeaponTipSocketName);
+}
+
 void ABaseCharacter::InitAbilityActorInfo()
 {
 	
