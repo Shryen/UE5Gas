@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Character/BaseCharacter.h"
 #include "Interface/EnemyInterface.h"
+#include "CharacterClassInfo.h"
 #include "AuraEnemy.generated.h"
 
 class UWidgetComponent;
@@ -30,7 +31,7 @@ public:
 protected:
 	virtual void BeginPlay() override;
 	virtual void InitAbilityActorInfo() override;
-
+	virtual void InitializeDefaultAttributes() const override;
 	/** Combat Interface **/
 	virtual int32 GetPlayerLevel() override;
 	/** End Combat Interface **/
@@ -50,6 +51,9 @@ protected:
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Character Class Defaults", meta=(AllowPrivateAccess=true))
 	int32 Level = 1;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Character Class Defaults", meta=(AllowPrivateAccess=true))
+	ECharacterClass CharacterClass = ECharacterClass::Warrior;
 
 	void SetWidgetController();
 	
