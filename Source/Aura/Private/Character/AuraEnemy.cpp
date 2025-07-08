@@ -90,9 +90,6 @@ void AAuraEnemy::BindCallbacks() const
 			{
 				OnMaxHealthChanged.Broadcast(Data.NewValue);
 			});
-
-	OnHealthChanged.Broadcast(AuraAttributeSet->GetHealth());
-	OnMaxHealthChanged.Broadcast(AuraAttributeSet->GetMaxHealth());
 }
 
 

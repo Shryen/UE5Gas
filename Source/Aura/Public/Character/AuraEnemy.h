@@ -10,7 +10,6 @@
 class UWidgetComponent;
 class UAuraUserWidget;
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnHealthChanged, float, NewValue);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnDead, bool, NewValue);
 
 /**
  * 
