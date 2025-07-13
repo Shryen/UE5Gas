@@ -8,6 +8,7 @@
 #include "CharacterClassInfo.h"
 #include "AuraEnemy.generated.h"
 
+struct FGameplayTag;
 class UWidgetComponent;
 class UAuraUserWidget;
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnHealthChanged, float, NewValue);
@@ -26,7 +27,17 @@ public:
 	virtual void HighlightActor() override;
 	virtual void UnHighlightActor() override;
 	/** End Enemy Interface **/
-	void BindCallbacks() const;
+	
+	void BindCallbacks();
+
+	UFUNCTION()
+	void HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount);
+	
+	UPROPERTY(BlueprintReadOnly, Category="Combat")
+	bool bHitReact = false;
+
+	UPROPERTY(BlueprintReadOnly, Category="Combat")
+	float BaseWalkSpeed = 250.f;
 
 protected:
 	virtual void BeginPlay() override;
@@ -48,6 +59,9 @@ protected:
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
 	TObjectPtr<UAuraUserWidget> HealthBarWidget;
 
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Attributes")
+	TSubclassOf<UGameplayEffect> HitReactEffect;
+	
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Character Class Defaults", meta=(AllowPrivateAccess=true))
 	int32 Level = 1;
