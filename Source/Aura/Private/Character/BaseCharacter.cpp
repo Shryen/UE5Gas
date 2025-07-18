@@ -1,6 +1,7 @@
 #include "Character/BaseCharacter.h"
 
 #include "AbilitySystemComponent.h"
+#include "ShaderPrintParameters.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "Aura/Aura.h"
 #include "Components/CapsuleComponent.h"
@@ -43,6 +44,8 @@ void ABaseCharacter::MulticastHandleDeath_Implementation()
 	GetMesh()->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Block);
 	
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+	Dissolve();
 }
 
 void ABaseCharacter::BeginPlay()
@@ -94,4 +97,20 @@ void ABaseCharacter::AddCharacterAbilities()
 	if(!HasAuthority()) return;
 
 	AuraASC->AddCharacterAbilities(StartupAbilities);
+}
+
+void ABaseCharacter::Dissolve()
+{
+	if(IsValid(DissolveMaterialInstance))
+	{
+		UMaterialInstanceDynamic* DynamicMatInst = UMaterialInstanceDynamic::Create(DissolveMaterialInstance, this);
+		GetMesh()->SetMaterial(0, DynamicMatInst);
+		StartDissolveTimeline(DynamicMatInst);
+	}
+	if(IsValid(W_DissolveMaterialInstance))
+	{
+		UMaterialInstanceDynamic* DynamicMatInst = UMaterialInstanceDynamic::Create(W_DissolveMaterialInstance, this);
+		Weapon->SetMaterial(0, DynamicMatInst);
+		StartWeaponDissolveTimeline(DynamicMatInst);
+	}
 }

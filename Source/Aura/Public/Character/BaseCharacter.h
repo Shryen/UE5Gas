@@ -61,6 +61,24 @@ protected:
 
 	void AddCharacterAbilities();
 
+	/*
+	 *	Dissolve Effect
+	 */
+	void Dissolve();
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void StartDissolveTimeline(UMaterialInstanceDynamic* DynamicMaterialInstance);
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void StartWeaponDissolveTimeline(UMaterialInstanceDynamic* DynamicMaterialInstance);
+	
+	UPROPERTY(EditAnywhere, Category = "Dissolve", BlueprintReadOnly)
+	TObjectPtr<UMaterialInstance> DissolveMaterialInstance;
+
+	// W = Weapon
+	UPROPERTY(EditAnywhere, Category = "Dissolve", BlueprintReadOnly)
+	TObjectPtr<UMaterialInstance> W_DissolveMaterialInstance;
+
 private:
 	UPROPERTY(EditAnywhere, Category="Abilities")
 	TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;
