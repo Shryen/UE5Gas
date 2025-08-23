@@ -44,7 +44,7 @@ void AAuraEnemy::BeginPlay()
 	InitAbilityActorInfo();
 	SetWidgetController();
 	BindCallbacks();
-	UAuraAbilitySystemLibrary::InitializeEnemyGameplayAbilites(this, AbilitySystemComponent);
+	UAuraAbilitySystemLibrary::InitializeEnemyGameplayAbilities(this, AbilitySystemComponent);
 }
 
 void AAuraEnemy::InitAbilityActorInfo()

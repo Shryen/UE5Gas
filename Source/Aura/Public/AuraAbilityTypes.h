@@ -11,17 +11,42 @@ struct FAuraGameplayEffectContext : public FGameplayEffectContext
 public:
 	
 	virtual UScriptStruct* GetScriptStruct() const override { return StaticStruct(); }
+
+	virtual FGameplayEffectContext* Duplicate() const
+	{
+		FAuraGameplayEffectContext* NewContext = new FAuraGameplayEffectContext();
+		*NewContext = *this;
+		if (GetHitResult())
+		{
+			// Does a deep copy of the hit result
+			NewContext->AddHitResult(*GetHitResult(), true);
+		}
+		return NewContext;
+	}
+	
 	virtual bool NetSerialize(FArchive& Ar, class UPackageMap* Map, bool& bOutSuccess) override;
 	
-	uint8 IsCriticalHit() const { return bIsCriticalHit; }
-	uint8 IsBlockedHit() const { return bIsBlockedHit; }
+	bool IsCriticalHit() const { return bIsCriticalHit; }
+	bool IsBlockedHit() const { return bIsBlockedHit; }
 	void SetIsCriticalHit(bool bInCriticalHit) { bIsCriticalHit = bInCriticalHit; }
 	void SetIsBlockedHit(bool bInBlockedHit) { bIsBlockedHit = bInBlockedHit; }
+
+	
 protected:
 	UPROPERTY()
-	uint8 bIsBlockedHit:1 = false;
+	bool bIsBlockedHit = false;
 	UPROPERTY()
-	uint8 bIsCriticalHit:1 = false;
+	bool bIsCriticalHit = false;
 
 
+};
+
+template<>
+struct TStructOpsTypeTraits<FAuraGameplayEffectContext> : public TStructOpsTypeTraitsBase2<FAuraGameplayEffectContext>
+{
+	enum
+	{
+		WithNetSerializer = true,
+		WithCopy = true
+	};
 };

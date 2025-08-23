@@ -1,5 +1,6 @@
 #include "AbilitySystem/ExecCalc/ExecCalc_Damage.h"
 #include "AbilitySystemComponent.h"
+#include "AuraAbilityTypes.h"
 #include "AuraGameplayTags.h"
 #include "CharacterClassInfo.h"
 #include "AbilitySystem/AuraAttributeSet.h"
@@ -72,6 +73,9 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	const bool bBlocked = FMath::RandRange(1,100) < TargetBlockChance;
 	DamageMagnitude = bBlocked ? DamageMagnitude / 2.f : DamageMagnitude;
 
+	FGameplayEffectContextHandle EffectContextHandle = Spec.GetContext();
+	UAuraAbilitySystemLibrary::SetIsBlockedHit(EffectContextHandle, bBlocked);
+	
 	// Armor ignores the percentage of the incoming damage
 	float TargetArmor = 0.f;
 	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().ArmorDef, EvalParams, TargetArmor);
@@ -108,6 +112,7 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	float EffectiveCriticalHitChance = SourceCriticalHitChance - TargetCriticalHitResistance * CriticalHitResistanceCoefficient;
 	const bool bCrit = RandomChance < EffectiveCriticalHitChance;
 	DamageMagnitude = bCrit ? ((DamageMagnitude * 2.f) + SourceCriticalHitDamage) : DamageMagnitude;
+	UAuraAbilitySystemLibrary::SetIsCriticalHit(EffectContextHandle, bCrit);
 	
 	FGameplayModifierEvaluatedData DamageModifier(UAuraAttributeSet::GetIncomingDamageAttribute(), EGameplayModOp::Additive, DamageMagnitude);
 	OutExecutionOutput.AddOutputModifier(DamageModifier);
